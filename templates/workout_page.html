@@ -80,8 +80,8 @@
     {% if exercise.id in sets_by_exercise %}
     <h3>{{ exercise.name }}</h3>
       <ul>
-        {% for set in sets_by_exercise[exercise.id] %}
-          <li>Set {{ set.set_number }}: {{ set.reps }} reps at {{ set.weight }}kg</li>
+        {% for workout_set in sets_by_exercise[exercise.id] %}
+          <li>Set {{ workout_set.set_number }}: {{ workout_set.reps }} reps at {{ workout_set.weight }}kg</li>
         {% endfor %}
       </ul>
     {% endif %}

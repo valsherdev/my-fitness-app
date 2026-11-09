@@ -73,7 +73,7 @@ def get_individual_workout(workout_id):
     all_sets = set_repo.find_by_workout_id(workout_id)
     sets_by_exercise = {}
     for workout_set in all_sets:
-        sets_by_exercise.setdefault(set.exercise_id, []).append(workout_set)    
+        sets_by_exercise.setdefault(workout_set.exercise_id, []).append(workout_set)    
     return render_template(
         "workout_page.html", 
         workout=workout,
