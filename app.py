@@ -25,8 +25,10 @@ def dashboard():
     user = user_repo.find_by_id(session["user_id"])
     workout_repo = WorkoutRepository(connection)
     in_progress = workout_repo.find_in_progress(session["user_id"])
+    recent_workouts = workout_repo.show_summaries(session["user_id"], limit=3)
     return render_template("dashboard.html", user=user,
-                           in_progress=in_progress)
+                           in_progress=in_progress,
+                           recent_workouts=recent_workouts)
 
 
 @app.route("/workouts/start", methods=["POST"])
@@ -104,6 +106,14 @@ def finish_workout(workout_id):
     workout_repo = WorkoutRepository(connection)
     workout_repo.finish(workout_id)
     return redirect("/dashboard")
+
+@app.route("/workouts", methods=["GET"])
+@login_required_decorator
+def workout_history():
+    connection = get_flask_database_connection(app)
+    workout_repo = WorkoutRepository(connection)
+    workout_history = workout_repo.show_summaries(session["user_id"])
+    return None
 
 
 # --- SIGNUP PAGE ---

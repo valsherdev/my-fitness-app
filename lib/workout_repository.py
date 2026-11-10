@@ -82,3 +82,27 @@ class WorkoutRepository:
             "UPDATE workouts SET ended_at = %s WHERE id = %s",
             [datetime.now(timezone.utc), workout_id]
         )
+
+
+    def show_summaries(self, user_id, limit=None):
+        query = """
+            SELECT 
+                w.id, 
+                w.started_at, 
+                w.ended_at,
+                COUNT(ws.id) AS total_sets,
+                COUNT(DISTINCT ws.exercise_id) AS exercise_count 
+            FROM workouts w 
+            LEFT JOIN workout_sets ws ON ws.workout_id = w.id 
+            WHERE w.user_id = %s 
+            AND w.ended_at IS NOT NULL
+            GROUP BY w.id 
+            ORDER BY w.started_at DESC
+        """
+        params = [user_id]
+        if limit is not None:
+            query += " LIMIT %s"
+            params.append(limit)
+        rows = self._connection.execute(query, params)
+        return [dict(row) for row in rows]
+        

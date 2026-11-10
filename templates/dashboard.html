@@ -43,4 +43,39 @@
     </form>
   {% endif %}
 
+  <section class="recent-workouts">
+    <div class="section-header">
+        <h2>Recent workouts</h2>
+        <a href="{{ url_for('workout_history') }}">View all →</a>
+    </div>
+
+    {% for workout in recent_workouts %}
+        <div class="workout-summary">
+            <h3>{{ workout.started_at.strftime('%A, %d %B') }}</h3>
+
+            <div class="workout-stats">
+                <div>
+                    <strong>{{ workout.exercise_count }}</strong>
+                    <span>Exercises</span>
+                </div>
+
+                <div>
+                    <strong>{{ workout.total_sets }}</strong>
+                    <span>Sets</span>
+                </div>
+
+                <div>
+                    <strong>
+                        {{ ((workout.ended_at - workout.started_at).total_seconds() / 60) | int }}
+                    </strong>
+                    <span>Minutes</span>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>No completed workouts yet.</p>
+    {% endfor %}
+  </section>
+
+
 {% endblock %}
