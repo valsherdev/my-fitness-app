@@ -65,6 +65,8 @@ def get_individual_workout(workout_id):
     exercise_repo = ExerciseRepository(connection)
     set_repo = WorkoutSetRepository(connection)
     workout = workout_repo.find_by_id(workout_id)
+    if workout is None or workout.user_id != session["user_id"]:
+        return render_template("workout_view_fail.html")
     muscle_groups = exercise_repo.muscle_groups()
     selected_group = request.args.get("muscle_group")
     if selected_group:
@@ -92,6 +94,13 @@ def get_individual_workout(workout_id):
 def add_set(workout_id):
     connection = get_flask_database_connection(app)
     set_repo = WorkoutSetRepository(connection)
+    workout_repo = WorkoutRepository(connection)
+    workout = workout_repo.find_by_id(workout_id)
+    if workout is None or workout.user_id != session["user_id"]:
+        return render_template("workout_view_fail.html")
+    if workout.ended_at is not None:
+        flash("This workout has already been completed. You cannot add more sets.")
+        return redirect(f"/workouts/{workout_id}")
     set_data = request.form
     new_set = set_repo.create(set_data, workout_id)
     if new_set is False:
