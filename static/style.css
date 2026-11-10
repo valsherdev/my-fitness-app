@@ -21,3 +21,57 @@ nav > ul > li > a {
 nav > ul > li > a:hover {
     text-decoration: underline;
 }
+
+.workout-summary-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.workout-summary {
+    padding: 20px;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    transition: background-color 0.2s;
+}
+
+.workout-summary-link:hover .workout-summary {
+    background-color: #f8f8f8;
+}
+
+.workout-summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.workout-summary-header h3 {
+    margin: 0;
+}
+
+.workout-status {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+.workout-stats {
+    display: flex;
+    gap: 48px;
+}
+
+.workout-stats div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.workout-stats strong {
+    font-size: 1.3rem;
+}
+
+.workout-stats span {
+    font-size: 0.85rem;
+    color: #777;
+}

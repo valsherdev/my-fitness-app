@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="workout-history">
+        <div class="section-header">
+            <div>
+                <h1>Workout history</h1>
+                <p>Your completed workouts</p>
+            </div>
+            <a href="{{ url_for('dashboard') }}">Back to dashboard</a>
+        </div>
+
+        <div class="workout-list">
+            {% for workout in workout_history %}
+                <a
+                    href="{{ url_for('get_individual_workout', workout_id=workout.id) }}"
+                    class="workout-summary-link"
+                >
+                    <div class="workout-summary">
+                        <div class="workout-summary-header">
+                            <h3>{{ workout.started_at.strftime('%A, %d %B') }}</h3>
+                            <span class="workout-status">Completed</span>
+                        </div>
+
+                        <div class="workout-stats">
+                            <div>
+                                <strong>{{ workout.exercise_count }}</strong>
+                                <span>Exercises</span>
+                            </div>
+
+                            <div>
+                                <strong>{{ workout.total_sets }}</strong>
+                                <span>Sets</span>
+                            </div>
+
+                            <div>
+                                <strong>
+                                    {{ ((workout.ended_at - workout.started_at).total_seconds() / 60) | int }}
+                                </strong>
+                                <span>Minutes</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% else %}
+                <p>No completed workouts yet. Start your first workout!</p>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

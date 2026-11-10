@@ -113,7 +113,10 @@ def workout_history():
     connection = get_flask_database_connection(app)
     workout_repo = WorkoutRepository(connection)
     workout_history = workout_repo.show_summaries(session["user_id"])
-    return None
+    return render_template(
+        "workout_history.html", 
+        workout_history=workout_history
+    )
 
 
 # --- SIGNUP PAGE ---
