@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% block content %}
@@ -91,23 +90,54 @@
         {% endif %}
     {% endif %}
 
-    <h2>Your logged exercises for this workout</h2>
+<h2>Your logged exercises for this workout</h2>
 
-    {% for exercise in all_exercises %}
-        {% if exercise.id in sets_by_exercise %}
-            <h3>{{ exercise.name }}</h3>
+{% for exercise in all_exercises %}
+    {% if exercise.id in sets_by_exercise %}
+        <h3>{{ exercise.name }}</h3>
 
-            <ul>
-                {% for workout_set in sets_by_exercise[exercise.id] %}
-                    <li>
+        <ul>
+            {% for workout_set in sets_by_exercise[exercise.id] %}
+                <li>
+                    <form
+                        action="{{ url_for('edit_set', workout_id=workout.id, set_id=workout_set.id) }}"
+                        method="post"
+                    >
                         Set {{ workout_set.set_number }}:
-                        {{ workout_set.reps }} reps at {{ workout_set.weight }}kg
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% else %}
-        <p>No exercises logged yet.</p>
-    {% endfor %}
 
+                        <label>Reps:</label>
+                        <input
+                            type="number"
+                            name="reps"
+                            value="{{ workout_set.reps }}"
+                            min="1"
+                            required
+                        >
+
+                        <label>Weight (kg):</label>
+                        <input
+                            type="number"
+                            name="weight"
+                            value="{{ workout_set.weight if workout_set.weight is not none else '' }}"
+                            step="0.5"
+                            min="0"
+                        >
+
+                        <button type="submit">Save changes</button>
+                    </form>
+
+                    <form
+                        action="{{ url_for('delete_set', workout_id=workout.id, set_id=workout_set.id) }}"
+                        method="post"
+                        onsubmit="return confirm('Are you sure you want to delete this set?');"
+                    >
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% else %}
+    <p>No exercises logged yet.</p>
+{% endfor %}
 {% endblock %}

@@ -46,6 +46,21 @@ class WorkoutSetRepository:
         )
         return [WorkoutSet(**row) for row in rows]
 
+    def update(self, set_id, set_data):
+        reps = set_data.get("reps")
+        weight = set_data.get("weight") or None
+        self._connection.execute(
+            "UPDATE workout_sets SET reps = %s, weight = %s WHERE id = %s",
+            [reps, weight, set_id]
+        )
+
+    def delete(self, set_id):
+        self._connection.execute(
+            "DELETE FROM workout_sets WHERE id = %s",
+            [set_id]
+        )
+
+
     def _next_set_number(self, workout_id, exercise_id):
         rows = self._connection.execute(
             "SELECT COUNT(*) AS count FROM workout_sets WHERE workout_id = %s AND exercise_id = %s",
