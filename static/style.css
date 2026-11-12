@@ -1,26 +1,260 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-nav {
-    display: flex;
-    justify-content: end;
-}
- 
-nav > ul {
-    display: flex;
-    gap: 2rem
+:root {
+    --background: #f5f5f2;
+    --surface: #ffffff;
+    --text: #252a26;
+    --muted: #777e78;
+    --border: #e5e7e2;
+    --primary: #354b3d;
+    --primary-hover: #263a2e;
+    --danger: #a34e4e;
+    --radius: 12px;
 }
 
-nav > ul > li {
+/* General */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: var(--background);
+    color: var(--text);
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.page-shell {
+    width: min(100% - 40px, 960px);
+    margin: 0 auto;
+    padding: 32px 0 60px;
+}
+
+h1, h2, h3, p {
+    margin-top: 0;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+h2 {
+    font-size: 19px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+h3 {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+p {
+    color: var(--muted);
+}
+
+/* Navigation */
+
+nav {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 32px;
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 0;
+    margin: 0;
+}
+
+nav li {
     list-style: none;
 }
 
-nav > ul > li > a {
+nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+}
+
+nav a:hover {
+    color: var(--text);
+}
+
+/* Links */
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-hover);
+}
+
+/* Buttons */
+
+button {
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 9px 16px;
+    border: none;
+    border-radius: 7px;
+    background: var(--primary);
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: var(--primary-hover);
+}
+
+button[type="button"] {
+    background: #e9ece8;
+    color: var(--text);
+}
+
+button[type="button"]:hover {
+    background: #dfe3de;
+}
+
+/* Forms */
+
+form {
+    margin: 0;
+}
+
+label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: var(--muted);
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: var(--surface);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 13px;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Cards and sections */
+
+.panel,
+.workout-summary,
+.exercise-card,
+.auth-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.section-header h2,
+.section-header h1 {
+    margin-bottom: 4px;
+}
+
+.section-header a {
+    font-size: 13px;
     text-decoration: none;
 }
 
-nav > ul > li > a:hover {
-    text-decoration: underline;
+/* Dashboard */
+
+.dashboard-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 28px 0 40px;
 }
+
+.panel h2 {
+    margin-bottom: 18px;
+}
+
+.panel form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.panel form button {
+    align-self: flex-start;
+    margin-top: 6px;
+}
+
+.recent-workouts {
+    margin-top: 36px;
+}
+
+.workout-summary {
+    margin-bottom: 14px;
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.workout-summary:hover {
+    border-color: #c6cdc5;
+    transform: translateY(-2px);
+}
+
+.workout-summary h3 {
+    margin-bottom: 16px;
+}
+
+.workout-stats {
+    display: flex;
+    gap: 52px;
+}
+
+.workout-stats div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.workout-stats strong {
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.workout-stats span {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* Workout history */
 
 .workout-summary-link {
     display: block;
@@ -28,16 +262,8 @@ nav > ul > li > a:hover {
     color: inherit;
 }
 
-.workout-summary {
-    padding: 20px;
-    border: 1px solid #e5e5e5;
-    border-radius: 10px;
-    margin-bottom: 16px;
-    transition: background-color 0.2s;
-}
-
-.workout-summary-link:hover .workout-summary {
-    background-color: #f8f8f8;
+.workout-summary-link:hover {
+    color: inherit;
 }
 
 .workout-summary-header {
@@ -52,26 +278,185 @@ nav > ul > li > a:hover {
 }
 
 .workout-status {
-    font-size: 0.85rem;
-    color: #777;
+    font-size: 12px;
+    color: var(--muted);
 }
 
-.workout-stats {
+/* Workout page */
+
+.workout-info {
     display: flex;
-    gap: 48px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 28px;
+    padding: 20px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
 }
 
-.workout-stats div {
+.workout-info p {
+    margin: 0;
+}
+
+.workout-info form {
+    flex-shrink: 0;
+}
+
+.danger-button {
+    background: #f7eeee;
+    color: var(--danger);
+}
+
+.danger-button:hover {
+    background: #f0dddd;
+}
+
+.workout-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 36px;
+}
+
+.exercise-card {
+    margin-bottom: 16px;
+}
+
+.exercise-card h3 {
+    margin-bottom: 14px;
+}
+
+.exercise-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.set-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+    border-top: 1px solid var(--border);
+}
+
+.set-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.set-controls button {
+    padding: 5px 11px;
+    font-size: 12px;
+}
+
+.set-edit-form {
+    display: none;
+    margin-top: 12px;
+    padding: 16px;
+    background: var(--background);
+    border-radius: 8px;
+}
+
+.set-edit-form input {
+    max-width: 150px;
+    margin-bottom: 10px;
+}
+
+.inline-form {
+    display: inline;
+}
+
+.error {
+    color: var(--danger);
+    margin-bottom: 16px;
+}
+
+/* Authentication pages */
+
+.auth-page {
+    max-width: 440px;
+    margin: 50px auto;
+}
+
+.auth-card {
+    padding: 32px;
+}
+
+.auth-card form {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 10px;
 }
 
-.workout-stats strong {
-    font-size: 1.3rem;
+.auth-card form button,
+.auth-card form input[type="submit"] {
+    margin-top: 10px;
 }
 
-.workout-stats span {
-    font-size: 0.85rem;
-    color: #777;
+.auth-footer {
+    margin-top: 22px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.auth-footer form {
+    display: inline;
+}
+
+.auth-footer input[type="submit"] {
+    width: auto;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--primary);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+}
+
+/* Mobile */
+
+@media (max-width: 650px) {
+    .page-shell {
+        width: min(100% - 28px, 960px);
+        padding-top: 20px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .dashboard-actions,
+    .workout-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .workout-stats {
+        gap: 28px;
+    }
+
+    .workout-info {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .set-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .section-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    nav ul {
+        gap: 16px;
+    }
 }
