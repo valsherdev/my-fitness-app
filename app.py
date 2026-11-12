@@ -65,6 +65,8 @@ def get_individual_workout(workout_id):
     exercise_repo = ExerciseRepository(connection)
     set_repo = WorkoutSetRepository(connection)
     workout = workout_repo.find_by_id(workout_id)
+    if workout is None or workout.user_id != session["user_id"]:
+        return render_template("workout_view_fail.html")
     muscle_groups = exercise_repo.muscle_groups()
     selected_group = request.args.get("muscle_group")
     if selected_group:
@@ -86,18 +88,69 @@ def get_individual_workout(workout_id):
         sets_by_exercise=sets_by_exercise
         )
 
+@app.route("/workouts/<workout_id>/delete", methods=["POST"])
+@login_required_decorator
+def delete_workout(workout_id):
+    connection = get_flask_database_connection(app)
+    workout_repo = WorkoutRepository(connection)
+    workout = workout_repo.find_by_id(workout_id)
+    if workout is None or workout.user_id != session["user_id"]:
+        return render_template("workout_view_fail.html")
+    workout_repo.delete(workout_id)
+    flash("Workout deleted successfully.")
+    return redirect("/workouts")
+
 
 @app.route("/workouts/<workout_id>/sets", methods=["POST"])
 @login_required_decorator
 def add_set(workout_id):
     connection = get_flask_database_connection(app)
     set_repo = WorkoutSetRepository(connection)
+    workout_repo = WorkoutRepository(connection)
+    workout = workout_repo.find_by_id(workout_id)
+    if workout is None or workout.user_id != session["user_id"]:
+        return render_template("workout_view_fail.html")
+    if workout.ended_at is not None:
+        flash("This workout has already been completed. You cannot add more sets.")
+        return redirect(f"/workouts/{workout_id}")
     set_data = request.form
     new_set = set_repo.create(set_data, workout_id)
     if new_set is False:
         flash("Please choose an exercise and enter reps.")
     return redirect(f"/workouts/{workout_id}")
 
+@app.route("/workouts/<workout_id>/sets/<set_id>/edit", methods=["POST"])
+@login_required_decorator
+def edit_set(workout_id, set_id):
+    connection = get_flask_database_connection(app)
+    set_repo = WorkoutSetRepository(connection)
+    workout_repo = WorkoutRepository(connection)
+    workout = workout_repo.find_by_id(workout_id)
+    workout_set = set_repo.find_by_id(set_id)
+    if workout is None or workout.user_id != session["user_id"]:
+        return render_template("workout_view_fail.html")
+    if workout_set is None or workout_set.workout_id != int(workout_id):
+        return render_template("workout_view_fail.html")
+    set_data = request.form
+    set_repo.update(set_id, set_data)
+    flash("Set updated successfully.")
+    return redirect(f"/workouts/{workout_id}")
+
+@app.route("/workouts/<workout_id>/sets/<set_id>/delete", methods=["POST"])
+@login_required_decorator
+def delete_set(workout_id, set_id):
+    connection = get_flask_database_connection(app)
+    set_repo = WorkoutSetRepository(connection)
+    workout_repo = WorkoutRepository(connection)
+    workout = workout_repo.find_by_id(workout_id)
+    workout_set = set_repo.find_by_id(set_id)
+    if workout is None or workout.user_id != session["user_id"]:
+        return render_template("workout_view_fail.html")
+    if workout_set is None or workout_set.workout_id != int(workout_id):
+        return render_template("workout_view_fail.html")
+    set_repo.delete(set_id)
+    flash("Set deleted successfully.")
+    return redirect(f"/workouts/{workout_id}")
 
 @app.route("/workouts/<workout_id>/finish", methods=["POST"])
 @login_required_decorator
@@ -113,7 +166,10 @@ def workout_history():
     connection = get_flask_database_connection(app)
     workout_repo = WorkoutRepository(connection)
     workout_history = workout_repo.show_summaries(session["user_id"])
-    return None
+    return render_template(
+        "workout_history.html", 
+        workout_history=workout_history
+    )
 
 
 # --- SIGNUP PAGE ---

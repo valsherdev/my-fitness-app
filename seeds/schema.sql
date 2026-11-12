@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS workouts (
 
 CREATE TABLE IF NOT EXISTS workout_sets (
     id SERIAL PRIMARY KEY,
-    workout_id INT NOT NULL REFERENCES workouts(id),
+    workout_id INT NOT NULL REFERENCES workouts(id) ON DELETE CASCADE,
     exercise_id INT NOT NULL REFERENCES exercises(id),
     set_number INT NOT NULL,
     reps INT NOT NULL,

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Access denied</h1>
+    <h2>This can be for these reasons:</h2>
+    <ul>
+        <li>You don't have permission to access this workout.</li>
+        <li>This workout does not exist.</li>
+    </ul>
+    <a href="{{ url_for('dashboard') }}">Back to dashboard</a>
+{% endblock %}
