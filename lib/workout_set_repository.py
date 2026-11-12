@@ -55,9 +55,25 @@ class WorkoutSetRepository:
         )
 
     def delete(self, set_id):
+        row = self._connection.execute(
+            "SELECT workout_id, exercise_id, set_number " \
+            "FROM workout_sets WHERE id = %s",
+            [set_id]
+        )
+        if not row:
+            return False
+        workout_id = row[0]["workout_id"]
+        exercise_id = row[0]["exercise_id"]
+        set_number = row[0]["set_number"]
         self._connection.execute(
             "DELETE FROM workout_sets WHERE id = %s",
             [set_id]
+        )
+        self._connection.execute(
+            "UPDATE workout_sets " \
+            "SET set_number = set_number - 1 " \
+            "WHERE workout_id = %s AND exercise_id = %s AND set_number > %s",
+            [workout_id, exercise_id, set_number]
         )
 
 
