@@ -61,7 +61,7 @@ class WorkoutSetRepository:
             [set_id]
         )
         if not row:
-            return False
+            return
         workout_id = row[0]["workout_id"]
         exercise_id = row[0]["exercise_id"]
         set_number = row[0]["set_number"]

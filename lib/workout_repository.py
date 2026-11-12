@@ -105,4 +105,10 @@ class WorkoutRepository:
             params.append(limit)
         rows = self._connection.execute(query, params)
         return [dict(row) for row in rows]
+
+    def delete(self, workout_id):
+        self._connection.execute(
+            "DELETE FROM workouts WHERE id = %s",
+            [workout_id]
+        )
         

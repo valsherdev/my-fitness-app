@@ -88,6 +88,18 @@ def get_individual_workout(workout_id):
         sets_by_exercise=sets_by_exercise
         )
 
+@app.route("/workouts/<workout_id>/delete", methods=["POST"])
+@login_required_decorator
+def delete_workout(workout_id):
+    connection = get_flask_database_connection(app)
+    workout_repo = WorkoutRepository(connection)
+    workout = workout_repo.find_by_id(workout_id)
+    if workout is None or workout.user_id != session["user_id"]:
+        return render_template("workout_view_fail.html")
+    workout_repo.delete(workout_id)
+    flash("Workout deleted successfully.")
+    return redirect("/workouts")
+
 
 @app.route("/workouts/<workout_id>/sets", methods=["POST"])
 @login_required_decorator
