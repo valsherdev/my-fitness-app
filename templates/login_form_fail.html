@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 {% block content %}    
-    <h1>Log in failed</h1>
-    <h2>This can be for these reasons:</h2>
-    <ul>
-        <li>Email or password is incorrect</li>
-        <li>Email cannot be found</li>
-    </ul>
-    <form action="/sessions/new" method="get">
-        <input type="submit" value="Return to login">
-    </form>
+<main class="page-shell">
+    <section class="panel error-page">
+        <h1>Log in failed</h1>
+        <p class="muted">We couldn't log you in. This may be because:</p>
+
+        <ul>
+            <li>Your email or password is incorrect</li>
+            <li>Your email address cannot be found</li>
+        </ul>
+
+        <form action="/sessions/new" method="get">
+            <button type="submit">Return to login</button>
+        </form>
+    </section>
+</main>
 {% endblock %}
