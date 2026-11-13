@@ -58,6 +58,39 @@ p {
     color: var(--muted);
 }
 
+.site-header {
+    width: min(100% - 40px, 960px);
+    margin: 0 auto;
+    padding: 22px 0;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--text);
+}
+
+.brand-mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 11px;
+    background: var(--primary);
+    color: white;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.brand-name {
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+}
+
 /* Navigation */
 
 .page-header {
@@ -455,6 +488,11 @@ textarea {
 
     nav ul {
         gap: 16px;
+    }
+
+    .site-header {
+        width: min(100% - 28px, 960px);
+        padding: 18px 0;
     }
 }
 
