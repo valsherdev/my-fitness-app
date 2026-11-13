@@ -88,6 +88,7 @@ def get_individual_workout(workout_id):
         sets_by_exercise=sets_by_exercise
         )
 
+
 @app.route("/workouts/<workout_id>/delete", methods=["POST"])
 @login_required_decorator
 def delete_workout(workout_id):
@@ -119,6 +120,7 @@ def add_set(workout_id):
         flash("Please choose an exercise and enter reps.")
     return redirect(f"/workouts/{workout_id}")
 
+
 @app.route("/workouts/<workout_id>/sets/<set_id>/edit", methods=["POST"])
 @login_required_decorator
 def edit_set(workout_id, set_id):
@@ -136,6 +138,7 @@ def edit_set(workout_id, set_id):
     flash("Set updated successfully.")
     return redirect(f"/workouts/{workout_id}")
 
+
 @app.route("/workouts/<workout_id>/sets/<set_id>/delete", methods=["POST"])
 @login_required_decorator
 def delete_set(workout_id, set_id):
@@ -152,13 +155,18 @@ def delete_set(workout_id, set_id):
     flash("Set deleted successfully.")
     return redirect(f"/workouts/{workout_id}")
 
+
 @app.route("/workouts/<workout_id>/finish", methods=["POST"])
 @login_required_decorator
 def finish_workout(workout_id):
     connection = get_flask_database_connection(app)
     workout_repo = WorkoutRepository(connection)
+    workout = workout_repo.find_by_id(workout_id)
+    if workout is None or workout.user_id != session["user_id"]:
+        return render_template("workout_view_fail.html")
     workout_repo.finish(workout_id)
     return redirect("/dashboard")
+
 
 @app.route("/workouts", methods=["GET"])
 @login_required_decorator
