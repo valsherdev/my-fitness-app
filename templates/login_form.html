@@ -1,22 +1,28 @@
 {% extends "base.html" %}
+
 {% block content %}
-  <h1>SetWise</h1>
+<main class="auth-page">
+    <div class="auth-card">
+        <h1>SetWise</h1>
+        <p>Track. Train. Progress.</p>
 
-  <h2>Login Form</h2>
+        <h2>Welcome back</h2>
 
-  <form action="/sessions" method="post">
-    <label>Email</label>
-    <input type="text" name="email" placeholder="Email">
-    <label>Password</label>
-    <input type="password" name="password" placeholder="Password">
+        <form action="/sessions" method="post">
+            <label>Email</label>
+            <input type="text" name="email" placeholder="Email" required>
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Password" required>
 
-    <br>
-    <button type="submit">Login</button>
-  </form>
+            <button type="submit">Login</button>
+        </form>
 
-  </form>
-    <label>Don't have an account?</label>
-    <form action="/" method="get">
-        <input type="submit" value="Sign up today">
-    </form>
+        <div class="auth-footer">
+            Don't have an account?
+            <form action="/" method="get">
+                <input type="submit" value="Sign up today">
+            </form>
+        </div>
+    </div>
+</main>
 {% endblock %}

@@ -1,15 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-  <title>SetWise</title>
-  <h1>SetWise</h1>
-  <p>Track. Train. Progress.</p>
-    <h2>Welcome back, {{ user.username }}!</h2>
+<main class="page-shell">
+    
+  <header class="page-header">
+      <div>
+          <h1>Welcome back, {{ user.username }}!</h1>
+          <p>Track. Train. Progress.</p>
+      </div>
 
-<nav>
-    <ul>
-        <li><a href="{{ url_for('logout') }}">Logout</a></li>
-    </ul>
-</nav>
+      <nav class="page-nav">
+          <a href="{{ url_for('logout') }}">Logout</a>
+      </nav>
+  </header>
 
 {% with messages = get_flashed_messages() %}
   {% if messages %}
@@ -18,29 +20,41 @@
 {% endwith %}
 
 {% if in_progress %}
-    <p>You have a workout in progress.</p>
-    <a href="/workouts/{{ in_progress.id }}">Resume workout</a>
-  {% else %}
-    <h1>Log your workout</h1>
+    <section class="panel">
+        <h2>Workout in progress</h2>
+        <p>You have a workout waiting for you.</p>
+        <a href="/workouts/{{ in_progress.id }}">Resume workout →</a>
+    </section>
+{% else %}
+    <div class="dashboard-actions">
 
-    <h2>Start now</h2>
-    <form action="/workouts/start" method="post">
-      <button type="submit">Start workout</button>
-    </form>
+        <section class="panel">
+            <h2>Start a workout</h2>
+            <p>Ready for your next session?</p>
 
-    <h2>Or log a past workout</h2>
-    <form action="/workouts/log" method="post">
-      <label>Started at</label>
-      <input type="datetime-local" name="started_at" required>
+            <form action="/workouts/start" method="post">
+                <button type="submit">Start workout</button>
+            </form>
+        </section>
 
-      <label>Ended at</label>
-      <input type="datetime-local" name="ended_at" required>
+        <section class="panel">
+            <h2>Log a past workout</h2>
 
-      <label>Notes (optional)</label>
-      <textarea name="notes"></textarea>
+            <form action="/workouts/log" method="post">
+                <label>Started at</label>
+                <input type="datetime-local" name="started_at" required>
 
-      <button type="submit">Log workout</button>
-    </form>
+                <label>Ended at</label>
+                <input type="datetime-local" name="ended_at" required>
+
+                <label>Notes (optional)</label>
+                <textarea name="notes"></textarea>
+
+                <button type="submit">Log workout</button>
+            </form>
+        </section>
+
+    </div>
   {% endif %}
 
   <section class="recent-workouts">
@@ -77,5 +91,5 @@
     {% endfor %}
   </section>
 
-
+</main>
 {% endblock %}

@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 {% block content %}    
-    <h1>Sign up failed</h1>
-    <h2>This can be for these reasons:</h2>
-    <ul>
-        <li>Username or email already exists</li>
-        <li>One or more fields are empty</li>
-    </ul>
-    <form action="/sign-up" method="get">
-        <input type="submit" value="Return to sign up">
-    </form>
+<main class="page-shell">
+    <section class="panel error-page">
+        <h1>Sign up failed</h1>
+        <p class="muted">We couldn't create your account. This may be because:</p>
+
+        <ul>
+            <li>Your username or email already exists</li>
+            <li>One or more fields are empty</li>
+        </ul>
+
+        <form action="/" method="get">
+            <button type="submit">Return to sign up</button>
+        </form>
+    </section>
+</main>
 {% endblock %}
