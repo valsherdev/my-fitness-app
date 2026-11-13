@@ -3,14 +3,24 @@
 {% block content %}
 <main class="page-shell">
     <section class="workout-history">
-        <div class="section-header">
-            <div>
-                <h1>Workout history</h1>
-                <p>Your completed workouts</p>
-            </div>
-            <a href="{{ url_for('dashboard') }}">Back to dashboard</a>
-            <a href="{{ url_for('logout') }}">Logout</a>
-        </div>
+        <header class="page-header">
+            <h1>Workout history</h1>
+
+            <nav class="page-nav">
+                <a href="/dashboard">Back to dashboard</a>
+                <a href="/logout">Logout</a>
+            </nav>
+        </header>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
 
         <div class="workout-list">
             {% for workout in workout_history %}

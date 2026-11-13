@@ -1,16 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
 <main class="page-shell">
-  <title>SetWise</title>
-  <h1>SetWise</h1>
-    <h1>Welcome back, {{ user.username }}!</h1>
-    <p>Track. Train. Progress.</p>
+    
+  <header class="page-header">
+      <div>
+          <h1>Welcome back, {{ user.username }}!</h1>
+          <p>Track. Train. Progress.</p>
+      </div>
 
-<nav>
-    <ul>
-        <li><a href="{{ url_for('logout') }}">Logout</a></li>
-    </ul>
-</nav>
+      <nav class="page-nav">
+          <a href="{{ url_for('logout') }}">Logout</a>
+      </nav>
+  </header>
 
 {% with messages = get_flashed_messages() %}
   {% if messages %}
